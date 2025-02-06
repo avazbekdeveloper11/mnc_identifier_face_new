@@ -26,7 +26,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    namespace 'id.mncinnovation.mnc_identifier_face'
+    namespace = "id.mncinnovation.mnc_identifier_face"
     compileSdkVersion 31
 
     compileOptions {
