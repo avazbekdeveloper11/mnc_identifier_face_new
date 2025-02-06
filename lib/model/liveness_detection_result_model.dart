@@ -7,29 +7,27 @@ import 'dart:convert';
 LivenessDetectionResult livenessDetectionResultFromJson(String str) =>
     LivenessDetectionResult.fromJson(json.decode(str));
 
-String livenessDetectionResultToJson(LivenessDetectionResult data) =>
-    json.encode(data.toJson());
+String livenessDetectionResultToJson(LivenessDetectionResult data) => json.encode(data.toJson());
 
 class LivenessDetectionResult {
   LivenessDetectionResult({
-    required this.attempt,
-    required this.detectionResult,
-    required this.errorMessage,
-    required this.isSuccess,
-    required this.totalTimeMilis,
+    this.attempt,
+    this.detectionResult,
+    this.errorMessage,
+    this.isSuccess,
+    this.totalTimeMilis,
   });
 
-  final int attempt;
-  final List<DetectionResult> detectionResult;
-  final String errorMessage;
-  final bool isSuccess;
-  final int totalTimeMilis;
+  final int? attempt;
+  final List<DetectionResult>? detectionResult;
+  final String? errorMessage;
+  final bool? isSuccess;
+  final int? totalTimeMilis;
 
   factory LivenessDetectionResult.fromJson(Map<String, dynamic> json) {
     return LivenessDetectionResult(
       attempt: json["attempt"],
-      detectionResult: List<DetectionResult>.from(
-          json["detectionResult"].map((x) => DetectionResult.fromJson(x))),
+      detectionResult: List<DetectionResult>.from(json["detectionResult"].map((x) => DetectionResult.fromJson(x))),
       errorMessage: json["errorMessage"] ?? "",
       isSuccess: json["isSuccess"],
       totalTimeMilis: json["totalTimeMilis"] ?? json["totalTimeMillis"],
@@ -38,8 +36,7 @@ class LivenessDetectionResult {
 
   Map<String, dynamic> toJson() => {
         "attempt": attempt,
-        "detectionResult":
-            List<dynamic>.from(detectionResult.map((x) => x.toJson())),
+        "detectionResult": List<dynamic>.from(detectionResult?.map((x) => x.toJson()) ?? []),
         "errorMessage": errorMessage,
         "isSuccess": isSuccess,
         "totalTimeMilis": totalTimeMilis,
@@ -48,17 +45,16 @@ class LivenessDetectionResult {
 
 class DetectionResult {
   DetectionResult({
-    required this.detectionMode,
-    required this.imagePath,
-    required this.timeMilis,
+    this.detectionMode,
+    this.imagePath,
+    this.timeMilis,
   });
 
-  final String detectionMode;
-  final String imagePath;
-  final int timeMilis;
+  final String? detectionMode;
+  final String? imagePath;
+  final int? timeMilis;
 
-  factory DetectionResult.fromJson(Map<String, dynamic> json) =>
-      DetectionResult(
+  factory DetectionResult.fromJson(Map<String, dynamic> json) => DetectionResult(
         detectionMode: json["detectionMode"],
         imagePath: json["imagePath"].toString(),
         timeMilis: json["timeMilis"] ?? 1000,
