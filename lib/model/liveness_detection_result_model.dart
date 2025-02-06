@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final livenessDetectionResult = livenessDetectionResultFromJson(jsonString);
-
 import 'dart:convert';
 
 LivenessDetectionResult livenessDetectionResultFromJson(String str) =>
@@ -12,14 +8,14 @@ String livenessDetectionResultToJson(LivenessDetectionResult data) => json.encod
 class LivenessDetectionResult {
   LivenessDetectionResult({
     this.attempt,
-    this.detectionResult,
+    required this.detectionResult,
     this.errorMessage,
     this.isSuccess,
     this.totalTimeMilis,
   });
 
   final int? attempt;
-  final List<DetectionResult>? detectionResult;
+  final List<DetectionResult> detectionResult;
   final String? errorMessage;
   final bool? isSuccess;
   final int? totalTimeMilis;
@@ -27,7 +23,9 @@ class LivenessDetectionResult {
   factory LivenessDetectionResult.fromJson(Map<String, dynamic> json) {
     return LivenessDetectionResult(
       attempt: json["attempt"],
-      detectionResult: List<DetectionResult>.from(json["detectionResult"].map((x) => DetectionResult.fromJson(x))),
+      // Agar "detectionResult" null bo'lsa, bo'sh ro'yxat qaytariladi
+      detectionResult:
+          (json["detectionResult"] as List<dynamic>?)?.map((x) => DetectionResult.fromJson(x)).toList() ?? [],
       errorMessage: json["errorMessage"] ?? "",
       isSuccess: json["isSuccess"],
       totalTimeMilis: json["totalTimeMilis"] ?? json["totalTimeMillis"],
@@ -36,7 +34,7 @@ class LivenessDetectionResult {
 
   Map<String, dynamic> toJson() => {
         "attempt": attempt,
-        "detectionResult": List<dynamic>.from(detectionResult?.map((x) => x.toJson()) ?? []),
+        "detectionResult": detectionResult.map((x) => x.toJson()).toList(),
         "errorMessage": errorMessage,
         "isSuccess": isSuccess,
         "totalTimeMilis": totalTimeMilis,
@@ -56,7 +54,7 @@ class DetectionResult {
 
   factory DetectionResult.fromJson(Map<String, dynamic> json) => DetectionResult(
         detectionMode: json["detectionMode"],
-        imagePath: json["imagePath"].toString(),
+        imagePath: json["imagePath"]?.toString(),
         timeMilis: json["timeMilis"] ?? 1000,
       );
 
