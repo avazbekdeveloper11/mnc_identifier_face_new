@@ -23,8 +23,9 @@ class LivenessDetectionResult {
   factory LivenessDetectionResult.fromJson(Map<String, dynamic> json) {
     return LivenessDetectionResult(
       attempt: json["attempt"],
-      detectionResult:
-          (json["detectionResult"] as List<dynamic>?)?.map((x) => DetectionResult.fromJson(x)).toList() ?? [],
+      detectionResult: json["detectionResult"] != null && json["detectionResult"] is List
+          ? (json["detectionResult"] as List<dynamic>).map((x) => DetectionResult.fromJson(x)).toList()
+          : [],
       errorMessage: json["errorMessage"] ?? "",
       isSuccess: json["isSuccess"],
       totalTimeMilis: json["totalTimeMilis"] ?? json["totalTimeMillis"],
