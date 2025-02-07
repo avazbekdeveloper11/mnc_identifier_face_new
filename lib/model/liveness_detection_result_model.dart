@@ -23,7 +23,6 @@ class LivenessDetectionResult {
   factory LivenessDetectionResult.fromJson(Map<String, dynamic> json) {
     return LivenessDetectionResult(
       attempt: json["attempt"],
-      // Agar "detectionResult" null bo'lsa, bo'sh ro'yxat qaytariladi
       detectionResult:
           (json["detectionResult"] as List<dynamic>?)?.map((x) => DetectionResult.fromJson(x)).toList() ?? [],
       errorMessage: json["errorMessage"] ?? "",
